@@ -1,0 +1,49 @@
+﻿@using Knjiznica.Misc
+@model IEnumerable<Knjiznica.Models.TipKnjige>
+
+@{
+    ViewBag.Title = "Popis tipova knjiga";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Tipovi Knjiga</h2>
+
+@if (User.Identity.IsAuthenticated && 
+    ((User as LogiraniKorisnik).IsInRole(OvlastiKorisnik.Administrator) || (User as LogiraniKorisnik).IsInRole(OvlastiKorisnik.Moderator)))
+{
+<p>
+    <a href="@Url.Action("Create", "TipoviKnjiga")" class="btn btn-success">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Kreiranje novog
+    </a>
+</p>
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.naziv)
+        </th>
+        @if (User.Identity.IsAuthenticated &&
+            ((User as LogiraniKorisnik).IsInRole(OvlastiKorisnik.Administrator) || (User as LogiraniKorisnik).IsInRole(OvlastiKorisnik.Moderator)))
+        {
+            <th></th>
+        }
+        </tr>
+
+@foreach (var item in Model) {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.naziv)
+    </td>
+    @if (User.Identity.IsAuthenticated &&
+    ((User as LogiraniKorisnik).IsInRole(OvlastiKorisnik.Administrator) || (User as LogiraniKorisnik).IsInRole(OvlastiKorisnik.Moderator)))
+    {
+        <td>
+            @Html.ActionLink("Uredi", "Edit", new { id = item.sifra }, new { @class = "btn btn-info btn-sm" }) |
+            @Html.ActionLink("Detalji", "Details", new { id = item.sifra }, new { @class = "btn btn-warning btn-sm" }) |
+            @Html.ActionLink("Obriši", "Delete", new { id = item.sifra }, new { @class = "btn btn-danger btn-sm" })
+        </td>
+    }
+    </tr>
+}
+
+</table>

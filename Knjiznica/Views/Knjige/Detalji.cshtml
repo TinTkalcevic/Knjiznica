@@ -1,0 +1,91 @@
+﻿@using Knjiznica.Models
+@model Knjiga
+
+@{
+    ViewBag.Title = "Detalji";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Detalji o knjizi</h2>
+
+
+@if (!String.IsNullOrWhiteSpace(Model.SlikaPutanja))
+{
+    <div class="row">
+        <div class="col-sm-offset-2 col-md-10">
+            <img src="@Url.Content(Model.SlikaPutanja)" width="250" height="250" />
+        </div>
+
+    </div>
+}
+
+
+<div class="row">
+    <div class="col-md-2">
+        <strong>ID:</strong>
+    </div>
+    <div class="col-md-10">
+        @Model.KnjigaId
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-2">
+        <strong>Naslov:</strong>
+    </div>
+    <div class="col-md-10">
+        @Model.NaslovKnjige
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-2">
+        <strong>Ime autora:</strong>
+    </div>
+    <div class="col-md-10">
+        @Model.ImeAutora
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-2">
+        <strong>Godina objave:</strong>
+    </div>
+    <div class="col-md-10">
+        @Model.ImeAutora
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-2">
+        <strong>Broj stranica:</strong>
+    </div>
+    <div class="col-md-10">
+        @Model.BrojStranica
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-2">
+        <strong>Izdavacka kuca:</strong>
+    </div>
+    <div class="col-md-10">
+        @Model.IzdavackaKucaId
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-2">
+        <strong>Tip knjige:</strong>
+    </div>
+    <div class="col-md-10">
+        @if(@Model.ZadaniTipKnjige != null)
+        {
+            @Model.ZadaniTipKnjige.naziv
+        }
+    </div>
+</div>
+
+<br/>
+
+@Html.ActionLink("Povratak na popis knjiga", "Popis", "Knjige", null, new { @class = "btn btn-primary btn-sm"})

@@ -1,0 +1,90 @@
+﻿@using Knjiznica.Models
+@using Knjiznica.Misc
+@model List<Knjiga>
+
+@{
+    ViewBag.Title = "Popis";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Popis</h2>
+
+@if (User.Identity.IsAuthenticated &&
+    ((User as LogiraniKorisnik).IsInRole(OvlastiKorisnik.Administrator) || (User as LogiraniKorisnik).IsInRole(OvlastiKorisnik.Moderator)))
+{
+<a href="@Url.Action("Azuriraj", "Knjige")" class="btn btn-success">
+    <span class="glyphicon glyphicon-plus" aria-hidden="true" ></span> 
+    Kreiranje nove knjige
+</a>
+
+
+
+<br/>
+<br/>
+}
+
+
+@using (Html.BeginForm("Popis", "Knjige", FormMethod.Get, new { @class = "form-inline" }))
+{
+    <p>
+        @Html.TextBox("naslov","",new { @class="form-control", placeholder = "Naziv knjige"})
+
+        @Html.DropDownList("TipKnjige",
+    new SelectList(ViewBag.Tipovi, "sifra","naziv",""),"Svi tipovi",
+    new {@class="form-control", style="margin-left:10px"})
+        <button type="submit" class=" btn btn-primary">
+            <span class=" glyphicon glyphicon-search" aria-hidden="true"></span> Traži
+        </button>
+    </p>
+}
+
+
+
+<table border="1" class="table table-striped">
+    <tr>
+        <th>KnjigaId</th>
+        <th>NaslovKnjige</th>
+        <th>ImeAutora</th>
+        <th>GodinaObjave</th>
+        <th>BrojStranica</th>
+        <th>IzdavackaKucaId</th>
+        <th>TipKnjige</th>
+        @if (User.Identity.IsAuthenticated &&
+    ((User as LogiraniKorisnik).IsInRole(OvlastiKorisnik.Administrator) || (User as LogiraniKorisnik).IsInRole(OvlastiKorisnik.Moderator)))
+        {
+            <th>Akcije</th>
+        }
+            <!--
+        <th>Detalji</th>
+        <th>Ažuriranje</th>
+        <th>Brisanje</th>-->
+        </tr>
+    @foreach(var knjiga in Model)
+    {
+<tr>
+    <td>@knjiga.KnjigaId</td>
+    <td>@knjiga.NaslovKnjige</td>
+    <td>@knjiga.ImeAutora</td>
+    <td>@knjiga.GodinaObjave.ToString("yyyy.MM.dd")</td>
+    <td>@knjiga.BrojStranica</td>
+    <td>@knjiga.IzdavackaKucaId</td>
+    <td>@(knjiga.ZadaniTipKnjige?.naziv)</td>
+    @if (User.Identity.IsAuthenticated &&
+    ((User as LogiraniKorisnik).IsInRole(OvlastiKorisnik.Administrator) || (User as LogiraniKorisnik).IsInRole(OvlastiKorisnik.Moderator)))
+    {
+        <td>
+            @Html.ActionLink("Detalji", "Detalji", new { id = knjiga.KnjigaId }, new { @class = "btn btn-info btn-sm" })
+            @Html.ActionLink("Ažuriraj", "Azuriraj", new { KnjigaId = knjiga.KnjigaId }, new { @class = "btn btn-warning btn-sm" })
+            @Html.ActionLink("Izbriši", "Brisi", new { KnjigaId = knjiga.KnjigaId }, new { @class = "btn btn-danger btn-sm" })
+        </td>
+    }
+    </tr>
+    }
+</table>
+
+<p>
+    <a href="@Url.Action("IspisKnjige","Knjige",
+            new {naslov=ViewBag.Naslov, autor=ViewBag.Autor})"class="btn btn-primary">
+        <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Kreiraj PDF
+    </a>
+</p>

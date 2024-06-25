@@ -1,0 +1,42 @@
+﻿@model Knjiznica.Models.TipKnjige
+
+@{
+    ViewBag.Title = "Izbrisi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Izbrisi</h2>
+
+
+<h3>Jeste li sigurni?</h3>
+<div>
+    <h4>TipKnjige</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.naziv)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.naziv)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+
+
+        <div class="form-actions no-color">
+            <button type="submit" class="btn btn-danger">
+                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>Izbriši
+            </button>|    @Html.ActionLink("Povratak na popis", "Index")
+        </div>
+
+
+
+        
+    }
+</div>

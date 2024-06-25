@@ -1,0 +1,33 @@
+﻿@using Knjiznica.Models
+@using Knjiznica.Misc
+@{
+    ViewBag.Title = "Početna stranica";
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+<div class="jumbotron">
+    <h1>MEV</h1>
+    <p class="lead">Knjižnica</p>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <h2>Pretraživanje i pregled</h2>
+        <p>
+            Pregled svih knjiga te pretraga po naslovu i tipu
+        </p>
+        <p>@Html.ActionLink("Popis", "Popis", "Knjige", null, new { @class = "btn btn-default" })</p>
+    </div>
+    @if (User.Identity.IsAuthenticated &&
+    ((User as LogiraniKorisnik).IsInRole(OvlastiKorisnik.Administrator) || (User as LogiraniKorisnik).IsInRole(OvlastiKorisnik.Moderator)))
+    {
+        <div class="col-md-6">
+            <h2>Unos nove knjige</h2>
+            <p>Unos nove knjige u bazu podataka</p>
+            <p>@Html.ActionLink("Unos", "Azuriraj", "Knjige", null, new { @class = "btn btn-default" })</p>
+        </div>
+    }
+</div>

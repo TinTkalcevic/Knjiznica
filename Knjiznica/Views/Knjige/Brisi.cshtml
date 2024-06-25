@@ -1,0 +1,29 @@
+﻿@using Knjiznica.Models
+@model Knjiga
+@{
+    ViewBag.Title = "Potvrda brisanja knjige";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!--<h2>ViewBag.Title</h2>-->
+<h2>Potvrda brisanja knjige</h2>
+
+
+
+<strong>Jeste li sigurni da želite obrisati knjigu: @Model.NaslovIAutor ?</strong>
+<br />
+<br />
+@using (Html.BeginForm("Brisi", "Knjige"))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.KnjigaId)
+    
+    <button type="submit" class="btn btn-danger">
+      <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>Izbriši
+     </button>
+    <br />
+    <br />
+    @Html.ActionLink("Odustani", "Popis");
+}
+
